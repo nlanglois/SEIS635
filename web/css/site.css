@@ -3,6 +3,13 @@ body {
     height: 100%;
 }
 
+
+.blue {
+    color: #0000aa;
+    font-weight: bold;
+}
+
+
 .wrap {
     min-height: 100%;
     height: auto;
