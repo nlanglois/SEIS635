@@ -31,7 +31,7 @@ class Account extends \yii\db\ActiveRecord
             [['Name', 'Amount', 'userID'], 'required'],
             [['Amount'], 'number'],
             [['userID'], 'integer'],
-            [['Name'], 'string', 'max' => 250]
+            [['Name'], 'string', 'max' => 255]
         ];
     }
 

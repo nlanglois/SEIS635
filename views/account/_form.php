@@ -12,7 +12,7 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'Name')->textInput(['maxlength' => 255]) ?> (add the account name)
+    <?= $form->field($model, 'Name')->textInput(['maxlength' => 255]) ?>
 
     <?= $form->field($model, 'Amount')->textInput(['maxlength' => 9]) ?>
 
