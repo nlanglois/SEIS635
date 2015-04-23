@@ -4,6 +4,7 @@ $params = require(__DIR__ . '/params.php');
 
 $config = [
     'id' => 'basic',
+    'name' => 'SEIS 635 Class Project',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'components' => [
@@ -16,7 +17,7 @@ $config = [
         ],
         'user' => [
             'identityClass' => 'app\models\User',
-            'enableAutoLogin' => true,
+            'enableAutoLogin' => false,
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
@@ -38,12 +39,14 @@ $config = [
             ],
         ],
         'urlManager' => [
+            'class' => 'yii\web\UrlManager',
+            // Disable index.php
+            'showScriptName' => false,
+            // Disable r= routes
             'enablePrettyUrl' => true,
-            'showScriptName' => true,
-            'rules' => [
-                // your rules go here
-            ],
-            // ...
+            'rules' => array(
+                // rules will go here eventually
+            ),
         ],
         'db' => require(__DIR__ . '/db.php'),
     ],

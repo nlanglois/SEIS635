@@ -47,16 +47,22 @@ class SiteController extends Controller
         ];
     }
 
+    /*
     public function actionIndex()
     {
         return $this->render('index');
     }
+    */
 
-    public function actionLogin()
+    //public function actionLogin()
+    public function actionIndex()
     {
+
         if (!\Yii::$app->user->isGuest) {
-            return $this->goHome();
+            //return $this->goHome();
+            return $this->render('welcome');
         }
+
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
