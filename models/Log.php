@@ -29,11 +29,12 @@ class Log extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['transactionType', 'amount', 'accountId'], 'required'],
-            [['amount'], 'number'],
+            [['transactionType', 'amount'], 'required'],
+            [['amount'], 'number', 'message'=>'Need a big number'],
             [['dateTime'], 'safe'],
-            [['accountId'], 'integer'],
-            [['transactionType'], 'string', 'max' => 100]
+            ['accountId', 'integer'],
+            ['accountId', 'required', 'message' => 'You must select an account.'],
+            [['transactionType'], 'string', 'max' => 100],
         ];
     }
 
