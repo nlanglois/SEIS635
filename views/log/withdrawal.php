@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h2><?= Html::encode($this->title) ?></h2>
 
-    <?= $this->render('_form', [
+    <?= $this->render('_deposit_withdrawal_form', [
         'model' => $model,
     ]) ?>
 

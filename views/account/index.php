@@ -12,25 +12,30 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="account-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h2><?= Html::encode($this->title) ?></h2>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Account', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create new account', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+            //['class' => 'yii\grid\SerialColumn'],
 
-            'accountID',
-            'Name',
-            'Amount',
-            'userID',
+            //'id',
+            'name',
+            'amount',
+            //'userId',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                //'header'=>'Action',
+                //'headerOptions' => ['width' => '80'],
+                'template' => '{update}',
+            ],
         ],
     ]); ?>
 

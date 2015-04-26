@@ -12,11 +12,12 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'Name')->textInput(['maxlength' => 255]) ?>
+    <?= $form->field($model, 'name')->textInput(['maxlength' => 255]) ?>
 
-    <?= $form->field($model, 'Amount')->textInput(['maxlength' => 9]) ?>
+    <?//= $form->field($model, 'amount')->textInput(['maxlength' => 9]) ?>
 
-    <?= $form->field($model, 'userID')->textInput() ?>
+    <?= $form->field($model, 'userId')->hiddenInput()->hide() ?>
+
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

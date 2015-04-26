@@ -36,9 +36,14 @@ use app\models\Account;
     <?= $form->field($model, 'dateTime')->hiddenInput()->hide() ?>
 
     <?php
-        $accountsList=ArrayHelper::map(Account::find()->asArray()->all(), 'accountID', 'Name');
+        $from = ($model->transactionType == "deposit") ? "Into" : "From";
+
+        $accountsList=ArrayHelper::map(Account::find()
+            ->where('userId = :userId', [':userId' => Yii::$app->user->identity->id])
+            ->asArray()
+            ->all(), 'id', 'name');
         echo $form->field($model, 'accountId')->dropDownList($accountsList, ['prompt'=>'-Choose an account-'])
-            ->label('Using this account');
+            ->label($from . ' this account');
     ?>
 
     <div class="form-group">

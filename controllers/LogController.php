@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Log;
+use app\models\Account;
 use app\models\LogSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -72,19 +73,54 @@ class LogController extends Controller
     }
 
     /**
-     * Creates a new Log model for a widthdrawal.
+     * Creates a new Log model for a deposit.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionWidthdrawal()
+    public function actionDeposit()
     {
         $model = new Log();
         $model->transactionType = "deposit";
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+
+            $accountModel = Account::find()
+                ->where('id = :accountId', [':accountId' => $model->accountId])
+                ->one();
+            $accountModel->amount += $model->amount;
+            $accountModel->save();
+
+            return $this->redirect(['index']);
+            //return $this->redirect(['view', 'id' => $model->id]);
         } else {
-            return $this->render('widthdrawal', [
+            return $this->render('deposit', [
+                'model' => $model,
+            ]);
+        }
+    }
+
+    /**
+     * Creates a new Log model for a withdrawal.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     * @return mixed
+     */
+    public function actionWithdrawal()
+    {
+        $model = new Log();
+        $model->transactionType = "withdrawal";
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+
+            $accountModel = Account::find()
+                ->where('id = :accountId', [':accountId' => $model->accountId])
+                ->one();
+            $accountModel->amount -= $model->amount;
+            $accountModel->save();
+
+            return $this->redirect(['index']);
+            //return $this->redirect(['view', 'id' => $model->id]);
+        } else {
+            return $this->render('withdrawal', [
                 'model' => $model,
             ]);
         }

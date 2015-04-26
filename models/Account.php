@@ -7,10 +7,10 @@ use Yii;
 /**
  * This is the model class for table "Account".
  *
- * @property integer $accountID
- * @property string $Name
- * @property string $Amount
- * @property integer $userID
+ * @property integer $id
+ * @property string $name
+ * @property string $amount
+ * @property integer $userId
  */
 class Account extends \yii\db\ActiveRecord
 {
@@ -28,10 +28,10 @@ class Account extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['Name', 'Amount', 'userID'], 'required'],
-            [['Amount'], 'number'],
-            [['userID'], 'integer'],
-            [['Name'], 'string', 'max' => 255]
+            [['name', 'amount', 'userId'], 'required'],
+            [['amount'], 'number'],
+            [['userId'], 'integer'],
+            [['name'], 'string', 'max' => 255]
         ];
     }
 
@@ -41,10 +41,10 @@ class Account extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'accountID' => 'Account ID',
-            'Name' => 'Name',
-            'Amount' => 'Amount',
-            'userID' => 'User ID',
+            'id' => 'Account ID',
+            'name' => 'Name',
+            'amount' => 'Amount',
+            'userId' => 'User ID',
         ];
     }
 }

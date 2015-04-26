@@ -15,6 +15,9 @@ use Yii;
  */
 class Log extends \yii\db\ActiveRecord
 {
+
+    //$accountName = "";
+
     /**
      * @inheritdoc
      */
@@ -30,10 +33,10 @@ class Log extends \yii\db\ActiveRecord
     {
         return [
             [['transactionType', 'amount'], 'required'],
-            [['amount'], 'number', 'message'=>'Need a big number'],
+            [['amount'], 'double', 'min'=>0.01],
             [['dateTime'], 'safe'],
             ['accountId', 'integer'],
-            ['accountId', 'required', 'message' => 'You must select an account.'],
+            ['accountId', 'required', 'message' => 'You must select one of your accounts.'],
             [['transactionType'], 'string', 'max' => 100],
         ];
     }
@@ -51,4 +54,21 @@ class Log extends \yii\db\ActiveRecord
             'accountId' => 'Account ID',
         ];
     }
+
+
+    public function getAccountOwner() {
+        return $this->hasOne(Account::className(), ['id' => 'accountId']);
+    }
+
+
+
+    public function getAccount() {
+        /*
+         * Assumptions:
+         * - foreign key to job in employee table is named job_id
+         * - primary key in job table is named id
+         */
+        return $this->hasOne(Account::classname(), ['id' => 'accountId']);
+    }
+
 }

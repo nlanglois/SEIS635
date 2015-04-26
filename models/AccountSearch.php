@@ -18,9 +18,9 @@ class AccountSearch extends Account
     public function rules()
     {
         return [
-            [['accountID', 'userID'], 'integer'],
-            [['Name'], 'safe'],
-            [['Amount'], 'number'],
+            [['id', 'userId'], 'integer'],
+            [['name'], 'safe'],
+            [['amount'], 'number'],
         ];
     }
 
@@ -42,7 +42,7 @@ class AccountSearch extends Account
      */
     public function search($params)
     {
-        $query = Account::find();
+        $query = Account::find()->where('userId = :userId', [':userId' => Yii::$app->user->identity->id]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -57,12 +57,12 @@ class AccountSearch extends Account
         }
 
         $query->andFilterWhere([
-            'accountID' => $this->accountID,
-            'Amount' => $this->Amount,
-            'userID' => $this->userID,
+            'id' => $this->id,
+            'amount' => $this->amount,
+            'userId' => $this->userId,
         ]);
 
-        $query->andFilterWhere(['like', 'Name', $this->Name]);
+        $query->andFilterWhere(['like', 'name', $this->name]);
 
         return $dataProvider;
     }
