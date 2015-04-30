@@ -2,12 +2,11 @@
 
 namespace app\controllers;
 
+use app\models\LoginForm;
 use Yii;
 use yii\filters\AccessControl;
-use yii\web\Controller;
 use yii\filters\VerbFilter;
-use app\models\LoginForm;
-use app\models\ContactForm;
+use yii\web\Controller;
 
 class SiteController extends Controller
 {
@@ -81,6 +80,8 @@ class SiteController extends Controller
         return $this->goHome();
     }
 
+
+    /*
     public function actionContact()
     {
         $model = new ContactForm();
@@ -99,4 +100,6 @@ class SiteController extends Controller
     {
         return $this->render('about');
     }
+    */
+
 }

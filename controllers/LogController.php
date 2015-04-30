@@ -2,13 +2,13 @@
 
 namespace app\controllers;
 
-use Yii;
-use app\models\Log;
 use app\models\Account;
+use app\models\Log;
 use app\models\LogSearch;
+use Yii;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
  * LogController implements the CRUD actions for Log model.
@@ -52,6 +52,22 @@ class LogController extends Controller
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
+    }
+
+    /**
+     * Finds the Log model based on its primary key value.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     * @param integer $id
+     * @return Log the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    protected function findModel($id)
+    {
+        if (($model = Log::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
     }
 
     /**
@@ -99,6 +115,11 @@ class LogController extends Controller
         }
     }
 
+
+    /*
+     * Creates a transfer, to move some funds from one account to another
+     */
+
     /**
      * Creates a new Log model for a withdrawal.
      * If creation is successful, the browser will be redirected to the 'view' page.
@@ -121,6 +142,21 @@ class LogController extends Controller
             //return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('withdrawal', [
+                'model' => $model,
+            ]);
+        }
+    }
+
+    public function actionTransfer()
+    {
+        $model = new Log();
+        $model->transactionType = "transfer";
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+
+
+        } else {
+            return $this->render("transfer", [
                 'model' => $model,
             ]);
         }
@@ -156,21 +192,5 @@ class LogController extends Controller
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
-    }
-
-    /**
-     * Finds the Log model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return Log the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id)
-    {
-        if (($model = Log::findOne($id)) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
     }
 }

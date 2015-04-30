@@ -1,7 +1,7 @@
 <?php
 
-use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\LogSearch */
@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= Html::a('Create Deposit', ['deposit'], ['class' => 'btn btn-success']) ?>
-        <?= Html::a('Create Widthdrawal', ['withdrawal'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Withdrawal', ['withdrawal'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
@@ -34,22 +34,26 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
             ],
             'amount',
-            //'dateTime',
             [
                 'attribute' => 'dateTime',
                 //'format' => ['raw', 'Y-m-d H:i:s'],
                 'format' =>  ['date', 'php:F jS, Y @ g:i a'],
                 'options' => ['width' => '200'],
             ],
-            'accountId',
+            [
+                'attribute' => 'accountName',
+                'value' => 'account.name',
+            ],
 
             //['class' => 'yii\grid\ActionColumn'],
+            /*
             [
                 'class' => 'yii\grid\ActionColumn',
                 //'header'=>'Action',
                 'headerOptions' => ['width' => '80'],
                 'template' => '{update} {delete}',
             ],
+            */
 
         ],
     ]); ?>

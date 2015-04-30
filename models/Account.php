@@ -47,4 +47,12 @@ class Account extends \yii\db\ActiveRecord
             'userId' => 'User ID',
         ];
     }
+
+
+    public function getUser()
+    {
+        return $this->hasOne(User::className(), ['id' => 'userId']);
+    }
+
+
 }

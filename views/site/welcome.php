@@ -6,11 +6,9 @@
  * Time: 1:42 PM
  */
 
-use app\models\Log;
 use app\models\LogSearch;
-
-use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\helpers\Html;
 
 
 ?>
@@ -42,46 +40,46 @@ use yii\grid\GridView;
             <h3>Your last 5 transactions</h3>
             <?php
 
-                $searchModel = new LogSearch();
-                $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+            $total = 0;
+
+            $searchModel = new LogSearch();
+            $dataProvider = $searchModel->last5ofLoggedInUser(Yii::$app->request->queryParams);
+            //$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
                 echo GridView::widget([
                     'dataProvider' => $dataProvider,
                     'filterModel' => $searchModel,
                     'showOnEmpty' => false,
                     'emptyText' => "None found yet",
+
                     'columns' => [
                         //['class' => 'yii\grid\SerialColumn'],
 
-                        //'id',
-                        ['attribute'=>'transactionType',
+                        [
+                            'attribute' => 'transactionType',
                             'contentOptions' =>[
                                 //'class' => 'uppercase',
                                 'style'=>'text-transform: uppercase;'
                             ],
+                            'footer' => 'see all of your transactions here',
+                            //'colspan' => true, // This will render footer cell as <td colspan="4">...</td> (where 4 will be set by columns count)
                         ],
-                        'amount',
-                        //'dateTime',
+                        'amount:currency',
                         [
                             'attribute' => 'dateTime',
                             //'format' => ['raw', 'Y-m-d H:i:s'],
                             'format' =>  ['date', 'php:F jS, Y @ g:i a'],
                             'options' => ['width' => '200'],
                         ],
-                        //'accountId',
-                        //'accountName',
-                        //'$data->Account->name',
                         [
-                            'attribute' => 'name',
+                            'attribute' => 'accountName',
                             'value' => 'account.name',
-                            //'value' => 'accountName',
-                            //'value' => '$data->Account->name',
+                            'options' => ['width' => '200'],
                         ],
 
-
                         //['class' => 'yii\grid\ActionColumn'],
-
                     ],
+                    'showFooter' => TRUE,
                 ]);
             ?>
 

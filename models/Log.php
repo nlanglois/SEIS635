@@ -56,19 +56,16 @@ class Log extends \yii\db\ActiveRecord
     }
 
 
-    public function getAccountOwner() {
-        return $this->hasOne(Account::className(), ['id' => 'accountId']);
-    }
-
-
-
-    public function getAccount() {
-        /*
-         * Assumptions:
-         * - foreign key to job in employee table is named job_id
-         * - primary key in job table is named id
-         */
+    public function getAccount()
+    {
         return $this->hasOne(Account::classname(), ['id' => 'accountId']);
     }
+
+
+    public function getUser()
+    {
+        return $this->hasOne(User::className(), ['id' => 'userId'])->viaTable(Account::tableName(), ['id' => 'accountId']);
+    }
+
 
 }
