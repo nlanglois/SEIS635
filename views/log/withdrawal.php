@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Log */
 
-$this->title = 'Make a Widthdrawal';
+$this->title = 'Make a Withdrawal';
 $this->params['breadcrumbs'][] = ['label' => 'Logs', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
