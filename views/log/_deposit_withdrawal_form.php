@@ -19,7 +19,6 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'transactionType')->hiddenInput()->hide() ?>
 
     <?//= $form->field($model, 'amount')->textInput(['maxlength' => 9]) ?>
-
     <?php
         echo $form->field($model, 'amount')->widget(MaskMoney::classname(), [
             'pluginOptions' => [
@@ -37,7 +36,6 @@ use yii\widgets\ActiveForm;
         $from = ($model->transactionType == "deposit") ? "Into" : "From";
 
         $accountsList=ArrayHelper::map(Account::find()
-            //->select('id, name, amount')
             ->where('userId = :userId', [':userId' => Yii::$app->user->identity->id])
             ->asArray()
             ->all(),

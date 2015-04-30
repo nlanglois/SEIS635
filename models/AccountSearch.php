@@ -5,7 +5,6 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Account;
 
 /**
  * AccountSearch represents the model behind the search form about `app\models\Account`.
@@ -42,7 +41,8 @@ class AccountSearch extends Account
      */
     public function search($params)
     {
-        $query = Account::find()->where('userId = :userId', [':userId' => Yii::$app->user->identity->id]);
+        $query = Account::find()
+            ->where('userId = :userId', [':userId' => Yii::$app->user->identity->id]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
