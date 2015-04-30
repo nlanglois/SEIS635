@@ -61,8 +61,8 @@ use yii\helpers\Html;
                                 //'class' => 'uppercase',
                                 'style'=>'text-transform: uppercase;'
                             ],
-                            'footer' => 'see all of your transactions here',
-                            //'colspan' => true, // This will render footer cell as <td colspan="4">...</td> (where 4 will be set by columns count)
+                            'format' => 'raw',
+                            'footer' => '<a href="./log">all transactions</a>',
                         ],
                         'amount:currency',
                         [

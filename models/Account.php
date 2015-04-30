@@ -22,6 +22,11 @@ class Account extends \yii\db\ActiveRecord
         return 'Account';
     }
 
+    static public function getAccountNameAndAmount($name, $amount)
+    {
+        return $name . ' (' . $amount . ')';
+    }
+
     /**
      * @inheritdoc
      */
@@ -47,7 +52,6 @@ class Account extends \yii\db\ActiveRecord
             'userId' => 'User ID',
         ];
     }
-
 
     public function getUser()
     {

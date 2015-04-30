@@ -1,12 +1,10 @@
 <?php
 
+use app\models\Account;
+use kartik\money\MaskMoney;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use kartik\money\MaskMoney;
-
-
-use app\models\Account;
 
 
 /* @var $this yii\web\View */
@@ -39,9 +37,20 @@ use app\models\Account;
         $from = ($model->transactionType == "deposit") ? "Into" : "From";
 
         $accountsList=ArrayHelper::map(Account::find()
+            //->select('id, name, amount')
             ->where('userId = :userId', [':userId' => Yii::$app->user->identity->id])
             ->asArray()
-            ->all(), 'id', 'name');
+            ->all(),
+            'id',
+            function ($element) {
+                return $element['name'] . " (" . Yii::$app->formatter->asCurrency($element['amount']) . ")";
+            }
+        );
+
+    if ($_GET) {
+        $model->accountId = $_GET['account'];
+    }
+
         echo $form->field($model, 'accountId')->dropDownList($accountsList, ['prompt'=>'-Choose an account-'])
             ->label($from . ' this account');
     ?>
