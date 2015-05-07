@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\models\Account;
 use app\models\Log;
+use app\models\Log2;
 use app\models\LogSearch;
 use Yii;
 use yii\filters\VerbFilter;
@@ -28,7 +29,7 @@ class LogController extends Controller
     }
 
     /**
-     * Lists all Log models.
+     * Lists all Log models, filterable.
      * @return mixed
      */
     public function actionIndex()
@@ -116,9 +117,6 @@ class LogController extends Controller
     }
 
 
-    /*
-     * Creates a transfer, to move some funds from one account to another
-     */
 
     /**
      * Creates a new Log model for a withdrawal.
@@ -147,19 +145,57 @@ class LogController extends Controller
         }
     }
 
+
+    /*
+     * Creates a transfer, to move some funds from one account to another
+     * http://www.yiiframework.com/forum/index.php/topic/53935-solved-subforms/page__p__248184#entry248184
+     */
     public function actionTransfer()
     {
-        $model = new Log();
-        $model->transactionType = "transfer";
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        $deposit = new Log();
+        $deposit->transactionType = "deposit";
 
+        $withdrawal = new Log2();
+        $withdrawal->transactionType = "withdrawal";
+
+
+        //$deposit->dateTime = $withdrawal->dateTime;
+
+
+        if ($deposit->load(Yii::$app->request->post()) &&
+            $withdrawal->load(Yii::$app->request->post())
+        ) {
+            //&& Model::validateMultiple([$deposit, $withdrawal])) {
+
+            $deposit->amount = $withdrawal->amount;
+            $deposit->save(false); // skip validation as model is already validated
+            $withdrawal->save(false);
+
+
+            $withdrawalAccountModel = Account::find()
+                ->where('id = :accountId', [':accountId' => $withdrawal->accountId])
+                ->one();
+            $withdrawalAccountModel->amount -= $deposit->amount;
+            $withdrawalAccountModel->save();
+
+            $depositAccountModel = Account::find()
+                ->where('id = :accountId', [':accountId' => $deposit->accountId])
+                ->one();
+            $depositAccountModel->amount += $withdrawal->amount;
+            $depositAccountModel->save();
+
+            return $this->redirect(['index']);
 
         } else {
-            return $this->render("transfer", [
-                'model' => $model,
+
+            return $this->render('transfer', [
+                'deposit' => $deposit,
+                'withdrawal' => $withdrawal
             ]);
+
         }
+
     }
 
     /**

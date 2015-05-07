@@ -2,6 +2,7 @@
 
 use yii\grid\GridView;
 use yii\helpers\Html;
+use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\LogSearch */
@@ -20,7 +21,10 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Create Withdrawal', ['withdrawal'], ['class' => 'btn btn-success']) ?>
     </p>
 
+    <?php //Pjax::begin(['timeout' => 1000, 'clientOptions' => ['container' => 'pjax-container']]); ?>
+    <?php Pjax::begin(); ?>
     <?= GridView::widget([
+        //'id' => 'logs-gridview',
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
@@ -35,14 +39,15 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'amount',
             [
+                'attribute' => 'accountName',
+                'value' => 'account.name',
+            ],
+            [
                 'attribute' => 'dateTime',
                 //'format' => ['raw', 'Y-m-d H:i:s'],
                 'format' =>  ['date', 'php:F jS, Y @ g:i a'],
                 'options' => ['width' => '200'],
-            ],
-            [
-                'attribute' => 'accountName',
-                'value' => 'account.name',
+                'filter' => false,
             ],
 
             //['class' => 'yii\grid\ActionColumn'],
@@ -57,5 +62,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
         ],
     ]); ?>
+    <?php Pjax::end(); ?>
+
 
 </div>

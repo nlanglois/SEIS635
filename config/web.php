@@ -48,7 +48,7 @@ $config = [
                 // rules will go here eventually
             ),
         ],
-        'db' => require(__DIR__ . '/db.php'),
+        'db' => require(__DIR__ . '/db-local.php'),
     ],
     'params' => $params,
 ];

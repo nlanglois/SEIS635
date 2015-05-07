@@ -6,8 +6,6 @@
  * Time: 1:42 PM
  */
 
-use app\models\LogSearch;
-use yii\grid\GridView;
 use yii\helpers\Html;
 
 
@@ -22,7 +20,11 @@ use yii\helpers\Html;
 
         <div class="col-sm-3">
             <p>
-                <?= Html::a('View your accounts', ['account/'], ['class' => 'btn btn-success']) ?>
+                <?= Html::a('View your accounts', ['account/'], ['class' => 'btn btn-primary']) ?>
+            </p>
+
+            <p>
+                <?= Html::a('View your transactions', ['log/'], ['class' => 'btn btn-primary']) ?>
             </p>
 
             <p>
@@ -32,14 +34,19 @@ use yii\helpers\Html;
             <p>
                 <?= Html::a('Withdrawal funds', ['log/withdrawal'], ['class' => 'btn btn-success']) ?>
             </p>
+
+            <p>
+                <?= Html::a('Make a transfer', ['log/transfer'], ['class' => 'btn btn-success']) ?>
+            </p>
         </div>
 
 
         <div class="col-sm-8">
 
-            <h3>Your last 5 transactions</h3>
+            <h3 style="display: none;">Your last 5 transactions</h3>
             <?php
 
+            /*
             $total = 0;
 
             $searchModel = new LogSearch();
@@ -48,7 +55,7 @@ use yii\helpers\Html;
 
                 echo GridView::widget([
                     'dataProvider' => $dataProvider,
-                    'filterModel' => $searchModel,
+                    //'filterModel' => $searchModel,
                     'showOnEmpty' => false,
                     'emptyText' => "None found yet",
 
@@ -81,6 +88,7 @@ use yii\helpers\Html;
                     ],
                     'showFooter' => TRUE,
                 ]);
+            */
             ?>
 
         </div>

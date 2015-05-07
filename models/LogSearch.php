@@ -60,20 +60,51 @@ class LogSearch extends Log
         $query = Log::find();
         $query->joinWith('user');
         $query->where('userId = :userId', [':userId' => Yii::$app->user->identity->id]);
-        $query->orderBy([
-            'dateTime' => SORT_DESC,
-        ]);
-        $query->all();
+        //$query->orderBy(['dateTime' => SORT_DESC,]);
+        //$query->all();
 
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+            /*
+            'sort'=> [
+                'defaultOrder' => [
+                    'dateTime'=>SORT_DESC
+                ]
+            ],
+            */
+            'sort' => ['defaultOrder' => ['Log.dateTime' => 'DESC']] // not working!
         ]);
 
+
+        /*
         $dataProvider->sort->attributes['accountName'] = [
             'asc' => ['Account.name' => SORT_ASC],
             'desc' => ['Account.name' => SORT_DESC],
         ];
+        */
+
+        $dataProvider->setSort([
+            'attributes' => [
+                'transactionType',
+                'amount',
+                'accountName' => [
+                    'asc' => ['Account.name' => SORT_ASC],
+                    'desc' => ['Account.name' => SORT_DESC],
+                    'label' => 'Full Name',
+                    //'default' => SORT_ASC
+                ],
+                'dateTime' => [
+                    'asc' => ['Log.dateTime' => SORT_ASC],
+                    'desc' => ['Log.dateTime' => SORT_DESC],
+                    'label' => 'Date Time',
+                    //'default' => SORT_DESC
+                ],
+            ]
+        ]);
 
 
         $this->load($params);
@@ -86,12 +117,13 @@ class LogSearch extends Log
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'amount' => $this->amount,
+            'Account.amount' => $this->amount,
             'dateTime' => $this->dateTime,
-            //'accountId' => $this->accountId,
+            'accountId' => $this->accountId,
         ]);
 
         $query->andFilterWhere(['like', 'transactionType', $this->transactionType]);
+        //$query->andFilterWhere(['like', 'Account.amount', $this->amount]);
         $query->andFilterWhere(['like', 'Account.name', $this->accountName]);
 
         return $dataProvider;
@@ -111,17 +143,19 @@ class LogSearch extends Log
     {
         $query = Log::find();
         $query->joinWith(['user']);
+        //$query->active();
+        $query->where('User.id = :userId', [':userId' => Yii::$app->user->identity->id]);
         $query->orderBy([
             'Log.dateTime' => SORT_DESC,
         ]);
-        $query->where('User.id = :userId', [':userId' => Yii::$app->user->identity->id]);
         $query->limit(5);
-        //$query->all();
+        $query->all();
         //echo $query->createCommand()->sql;
 
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            //'sort'=> ['defaultOrder' => ['Log.dateTime' => 'DESC']], // not working!
         ]);
 
 

@@ -27,6 +27,15 @@ class Log extends \yii\db\ActiveRecord
     }
 
     /**
+     * @param $query
+     */
+    public static function active($query)
+    {
+        //$query->andWhere('status = 1');
+        $query->andWhere('userId = :userId', [':userId' => Yii::$app->user->identity->id]);
+    }
+
+    /**
      * @inheritdoc
      */
     public function rules()
@@ -42,7 +51,6 @@ class Log extends \yii\db\ActiveRecord
         ];
     }
 
-
     /**
      * @param $attribute
      * @param $params
@@ -56,15 +64,12 @@ class Log extends \yii\db\ActiveRecord
                 ->one();
 
             if ($this->transactionType == "withdrawal" && $account->amount < $this->amount) {
-                $this->addError($attribute, 'Sorry, this account only has ' .
+                $this->addError($attribute, 'Sorry, the selected account only has ' .
                     Yii::$app->formatter->asCurrency($account->amount) . ' in it right
                     now. You can\'t withdrawal more than that amount.');
             }
         }
     }
-
-
-
 
     /**
      * @inheritdoc
@@ -80,7 +85,6 @@ class Log extends \yii\db\ActiveRecord
         ];
     }
 
-
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -88,7 +92,6 @@ class Log extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Account::classname(), ['id' => 'accountId']);
     }
-
 
     /**
      * @return static
